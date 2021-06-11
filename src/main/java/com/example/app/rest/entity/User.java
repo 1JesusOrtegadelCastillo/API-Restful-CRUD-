@@ -1,4 +1,4 @@
-package com.example.app.rest.Model;
+package com.example.app.rest.entity;
 
 import javax.persistence.*;
 
@@ -55,5 +55,16 @@ public class User {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", occupation='" + occupation + '\'' +
+                '}';
     }
 }
