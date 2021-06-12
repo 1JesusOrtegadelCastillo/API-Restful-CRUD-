@@ -1,17 +1,20 @@
-package com.example.app.rest.Controller;
+package com.example.app.rest.service;
 
-import com.example.app.rest.Model.User;
-import com.example.app.rest.Repo.UserRepo;
+import com.example.app.rest.entity.User;
+import com.example.app.rest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-public class ApiControllers {
-    // injecting repository with autowired
+@Service
+@Validated
+public class UserService {
+
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @GetMapping(value = "/")
     public String getPage(){
@@ -22,33 +25,33 @@ public class ApiControllers {
     @GetMapping(value = "/users")
     public List<User> getUsers(){
         // using JPA to return users
-        return userRepo.findAll();
+        return userRepository.findAll();
     }
 
     //Create user
     @PostMapping(value = "/save")
     public String saveUser(@RequestBody User user) {
-        userRepo.save(user);
+        userRepository.save(user);
         return "new user saved.";
     }
 
     //Update user
     @PutMapping(value = "update/{id}")
     public String updateUser(@PathVariable long id, @RequestBody User user){
-        User updatedUser = userRepo.findById(id).get();
+        User updatedUser = userRepository.findById(id).get();
         updatedUser.setFirstName(user.getFirstName());
         updatedUser.setLastName(user.getLastName());
         updatedUser.setAge(user.getAge());
         updatedUser.setOccupation(user.getOccupation());
-        userRepo.save(updatedUser);
+        userRepository.save(updatedUser);
         return "User updated ...";
     }
 
     //Delete user
     @DeleteMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable long id){
-        User deleteUser = userRepo.findById(id).get();
-        userRepo.delete(deleteUser);
+        User deleteUser = userRepository.findById(id).get();
+        userRepository.delete(deleteUser);
         return "User with the id: ("+id+") deleted.";
     }
 
